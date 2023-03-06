@@ -33,7 +33,7 @@ function compra()  {
                 }  else if (compraUsuario == 'Camperas'){
                 alert ('El valor de cada campera es de $6000')
                 cantidadDeseada = prompt('¿Cuantas cantidades necesita?')
-                calculoCompraFinal = cantidadDeseada * 6000 
+                calculoCompraFinal = cantidadDeseada * 5000 
                 alert ('Su precio total es de ' + calculoCompraFinal)
                 }  
 
