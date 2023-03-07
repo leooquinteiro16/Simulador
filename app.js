@@ -1,50 +1,77 @@
+const productos = [
+    {nombre: "Camisetas", precio: 3500 },
+    {nombre: "Pantalones", precio: 4000 },
+    {nombre: "Zapatillas", precio: 1000 },
+    {nombre: "Camperas", precio: 6000 },
+];
+
+let carrito = []
+
 let usuario = prompt('Ingrese su usuario')
 let contraseña = prompt('Ingrese su contraseña')
 
 while(contraseña !== '1234'){
     alert('Contraseña incorrecta, reintente nuevamente')
-    contraseña = prompt('Ingrese su contraseña')
+    contraseña = (prompt('Ingrese su contraseña'))
 }
 
 alert('Bienvenido ' + usuario)
 
-function compra()  {
-            let compraUsuario = prompt('Bienvenido a su BullDog indumentaria , digannos que categoria estaba buscando')
+let seleccion = prompt('Bienvenido a BullDog Indumentaria ¿Desea comprar algun producto?')
 
-                if (compraUsuario == 'Camisetas'){
-                alert ('El valor de cada camiseta es de $3.500')
-                cantidadDeseada = prompt('¿Cuantas cantidades necesita?')
-                calculoCompraFinal = cantidadDeseada * 3500 
-                alert ('Su precio total es de ' + calculoCompraFinal)
+while(seleccion != 'si' && seleccion != "no"){
+    alert('Porfavor ingresa si o no')
+    seleccion = prompt('Bienvenido a BullDog Indumentaria ¿Desea comprar algun producto?')
+}
 
-
-                } else if (compraUsuario == 'Pantalones') {
-                alert ('El valor de cada pantalon es de $4.000')
-                cantidadDeseada = prompt('¿Cuantas cantidades necesita?')
-                calculoCompraFinal = cantidadDeseada * 4000 
-                alert ('Su precio total es de ' + calculoCompraFinal)
-
-                } else if (compraUsuario == 'Zapatillas'){
-                alert ('El valor de cada par de zapatillas es de $10.000')
-                cantidadDeseada = prompt('¿Cuantas cantidades necesita?')
-                calculoCompraFinal = cantidadDeseada * 10000 
-                alert ('Su precio total es de ' + calculoCompraFinal)
-
-                }  else if (compraUsuario == 'Camperas'){
-                alert ('El valor de cada campera es de $6000')
-                cantidadDeseada = prompt('¿Cuantas cantidades necesita?')
-                calculoCompraFinal = cantidadDeseada * 7000 
-                alert ('Su precio total es de ' + calculoCompraFinal)
-                }  
-
+if(seleccion == "si"){
+    alert("Bienvenido a BullDog Indumentaria, a continuacion podra ver nuestros productos con su precio")
+            let todosLosProductos = productos.map ((producto) => producto.nombre + " " + producto.precio + "$");
+            alert(todosLosProductos.join(" * "))
+}   else if (seleccion == "no"){
+    alert('Gracias por visitarnos')
+}            
                 
-                otraCompra = prompt('¿Desea realizar otra compra?')
-                    if (otraCompra == 'si'){
-                        compra()
-                    }   else if (otraCompra === 'no'){
-                        alert('Muchas gracias por visitarnos!')
-                    }
-        }
-compra()        
+while(seleccion != "no"){
 
-    
+                let producto = prompt('Agrega un producto a tu carrito')
+                let precio = 0
+
+if(producto == "Camisetas" || producto == "Pantalones" || producto == "Zapatillas" || producto == "Camperas"){
+            switch (producto) {
+                case "Camisetas":
+                    precio = 3500;
+                    break;
+                case "Pantalones":
+                    precio = 4000;
+                    break;
+                case "Zapatillas":
+                    precio = 1000;
+                    break;   
+                case "Camperas":
+                    precio = 6000;
+                    break;    
+                    default:
+                    break;
+            }
+
+            let unidades = parseInt(prompt('Indique la cantidad del producto seleccionado'))
+
+            carrito.push({producto, unidades, precio})
+            console.log(carrito)
+            } else {
+                alert('No contamos con ese producto')
+            }
+
+
+            seleccion = prompt('¿Desea realizar otra compra?')
+
+            while(seleccion === 'no'){
+              alert('Muchas gracias por visitarnos')
+              carrito.forEach((carritoFinal) => {
+                console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades},
+                total a pagar por producto ${carritoFinal.unidades * carritoFinal.precio}`)
+              })
+              break;
+}
+}
