@@ -1,77 +1,82 @@
+const shopContent = document.getElementById("shopContent")
+const verCarrito = document.getElementById("verCarrito");
+const modalContainer = document.getElementById("modal-container");
+
+
 const productos = [
-    {nombre: "Camisetas", precio: 3500 },
-    {nombre: "Pantalones", precio: 4000 },
-    {nombre: "Zapatillas", precio: 1000 },
-    {nombre: "Camperas", precio: 6000 },
+    {id: 1, nombre: "Camisetas", precio: 3500 },
+    {id: 2, nombre: "Pantalones", precio: 4000 },
+    {id: 3, nombre: "Zapatillas", precio: 1000 },
+    {id: 4, nombre: "Camperas", precio: 6000 },
 ];
 
-let carrito = []
+let carrito = [];
 
-let usuario = prompt('Ingrese su usuario')
-let contraseña = prompt('Ingrese su contraseña')
+productos.forEach((product) => {
+    let content = document.createElement("div");
+    content.className = "card";
+    content.innerHTML = `
+        <img src="${product.img}">
+        <h3>${product.nombre}</h3>
+        <p class="price">${product.precio} $</p)>
+    `;
 
-while(contraseña !== '1234'){
-    alert('Contraseña incorrecta, reintente nuevamente')
-    contraseña = (prompt('Ingrese su contraseña'))
-}
+    shopContent.append(content);
 
-alert('Bienvenido ' + usuario)
+    let comprar = document.createElement("button");
+    comprar.innerText = "comprar"
+    comprar.className = "comprar"
 
-let seleccion = prompt('Bienvenido a BullDog Indumentaria ¿Desea comprar algun producto?')
-
-while(seleccion != 'si' && seleccion != "no"){
-    alert('Porfavor ingresa si o no')
-    seleccion = prompt('Bienvenido a BullDog Indumentaria ¿Desea comprar algun producto?')
-}
-
-if(seleccion == "si"){
-    alert("Bienvenido a BullDog Indumentaria, a continuacion podra ver nuestros productos con su precio")
-            let todosLosProductos = productos.map ((producto) => producto.nombre + " " + producto.precio + "$");
-            alert(todosLosProductos.join(" * "))
-}   else if (seleccion == "no"){
-    alert('Gracias por visitarnos')
-}            
-                
-while(seleccion != "no"){
-
-                let producto = prompt('Agrega un producto a tu carrito')
-                let precio = 0
-
-if(producto == "Camisetas" || producto == "Pantalones" || producto == "Zapatillas" || producto == "Camperas"){
-            switch (producto) {
-                case "Camisetas":
-                    precio = 3500;
-                    break;
-                case "Pantalones":
-                    precio = 4000;
-                    break;
-                case "Zapatillas":
-                    precio = 1000;
-                    break;   
-                case "Camperas":
-                    precio = 6000;
-                    break;    
-                    default:
-                    break;
-            }
-
-            let unidades = parseInt(prompt('Indique la cantidad del producto seleccionado'))
-
-            carrito.push({producto, unidades, precio})
-            console.log(carrito)
-            } else {
-                alert('No contamos con ese producto')
-            }
+    content.append(comprar);
 
 
-            seleccion = prompt('¿Desea realizar otra compra?')
+    comprar.addEventListener("click", () => {
+        carrito.push({
+            id:product.id,
+            img: product.img,
+            nombre: product.nombre,
+            precio: product.precio,
+        });
+        console.log(carrito)
+    });
+});
 
-            while(seleccion === 'no'){
-              alert('Muchas gracias por visitarnos')
-              carrito.forEach((carritoFinal) => {
-                console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades},
-                total a pagar por producto ${carritoFinal.unidades * carritoFinal.precio}`)
-              })
-              break;
-}
-}
+verCarrito.addEventListener("click", () => {
+    modalContainer.innerHTML = "";
+    modalContainer.style.display = "flex"
+    const modalHeader =  document.createElement("div");
+    modalHeader.className = "modal-header";
+    modalHeader.innerHTML = `
+    <h1 class="modal-header-title">Carrito.</h1>
+    `;
+    modalContainer.append(modalHeader);
+
+    const modalbutton = document.createElement('h1');
+    modalbutton.innerText = "x";
+    modalbutton.className = "modal-header-button";
+
+    modalbutton.addEventListener("click", () => {
+        modalContainer.style.display = "none";
+    });
+
+    modalHeader.append(modalbutton);
+
+    carrito.forEach((product) => {
+        let carritoContent = document.createElement("div");
+        carritoContent.className = "modal-content";
+        carritoContent.innerHTML = `
+        <img src="${product.img}">
+        <h3>${product.nombre}</h3>
+        <p>${product.precio} $</p>
+        `;
+
+        modalContainer.append(carritoContent);
+    });
+    const total = carrito.reduce((acc,el) => acc + el.precio, 0);
+
+    const totalBuying = document.createElement("div");
+    totalBuying.className = "total-content";
+    totalBuying.innerHTML = `total a pagar: ${total} $`
+    modalContainer.append(totalBuying);
+    
+})
